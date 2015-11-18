@@ -13,7 +13,7 @@ public class OnedComplexDecorator implements Decorator {
 	private final double threshold;
 
 	public OnedComplexDecorator(Settings settings) {
-		this.threshold = settings.getFloat("sonar.escoem.oned.threshold").floatValue();
+		this.threshold = settings.getFloat(OnedPlugin.COMPLEXITY_THRESHOLD).floatValue();
 	}
 
 	public boolean shouldExecuteOnProject(Project project) {
@@ -21,13 +21,18 @@ public class OnedComplexDecorator implements Decorator {
 	}
 
 	public void decorate(Resource resource, DecoratorContext context) {
-		if (ResourceUtils.isEntity(resource)) {
-			Measure complexity = context.getMeasure(CoreMetrics.COMPLEXITY);
-			double value = complexity.getValue().doubleValue();
-			if (value > this.threshold) {
-				context.saveMeasure(OnedMetrics.DANGEROUS_COMPLEXITY, Double.valueOf(value));
-				context.saveMeasure(OnedMetrics.DANGEROUS_FILE_COMPLEXITY, Double.valueOf(value));
-			}
+		
+	    // Avoid to decorate unit test entities.
+        if (ResourceUtils.isEntity(resource) && !ResourceUtils.isUnitTestClass(resource)) {
+			
+		    final Measure<?> complexity = context.getMeasure(CoreMetrics.COMPLEXITY);
+		    
+		    final double value = complexity.getValue().doubleValue();
+	            
+            if (value > this.threshold) {
+                context.saveMeasure(OnedMetrics.DANGEROUS_COMPLEXITY, Double.valueOf(value));
+                context.saveMeasure(OnedMetrics.DANGEROUS_FILE_COMPLEXITY, Double.valueOf(value));
+            }
 		}
 	}
 }

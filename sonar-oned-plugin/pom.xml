@@ -10,7 +10,7 @@
   
   <inceptionYear>2015</inceptionYear>
   <organization>
-    <name>Emilio Escobar Reyero (escoem)</name>
+    <name>Emilio Escobar Reyero (escoem)/Francisco Hernandez Suarez (onuba)</name>
   </organization>
   <licenses>
     <license>
@@ -24,6 +24,10 @@
     <developer>
       <id>escoem</id>
       <name>Emilio Escobar Reyero</name>
+    </developer>
+    <developer>
+      <id>onuba</id>
+      <name>Francisco Hernandez Suarez</name>
     </developer>
   </developers>
 
@@ -61,6 +65,43 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.sonar
+										</groupId>
+										<artifactId>
+											sonar-packaging-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.7,)
+										</versionRange>
+										<goals>
+											<goal>
+												check-dependencies
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 	<dependencies>
 		<dependency>
